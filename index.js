@@ -1,19 +1,10 @@
+
 var keyE = false;
 var w;
 var h;
 var grideSize = 32;
 var drx = "";
 var dry = "";
-var img0 = loadImage("blankimg.png");//blank
-var img1 = loadImage("foodImg.png");//food
-var img2 = loadImage("New_Piskel-3_(1).png"); //sword
-var img3 = loadImage("New_Piskel-1_(2).png");//dead pig
-var img4 = loadImage("New_Piskel-2.png");// stone block
-var img5 = loadImage("New_Piskel-1_(6).png");//grass
-var img6 = loadImage("New_Piskel-2_(3).png");//seed
-var img7 = loadImage("bush.png");//bush
-var img8 = loadImage("bat.png");//bat
-var img9 = loadImage("stick.png")//stick
 var invSlots = [];
 var itemsGrownd = [];
 var leftMouseDown = false;
@@ -22,7 +13,7 @@ var clkD = false;
 var TerrainS = [];
 
 function setup(){
-          createCanvas(800,800);
+  createCanvas(800,800);
           var num = 0;
           for(var i = 0 ; i < 10 ; i++){
             TerrainS.push(new OjectTerrain(round(random(0,25)),round(random(0,25)),0));
@@ -38,14 +29,23 @@ function setup(){
         }
          console.log(num);
          invSlots.push(new InvantorySlots(700,64,0,num));
-         num++
+         num++;
          invSlots.push(new InvantorySlots(700,132,0,num));
+         num++;
+         invSlots.push(new InvantorySlots(64,74,0,num));
+         num++;
+         invSlots.push(new InvantorySlots(128,74,0,num));
+         num++
+         invSlots.push(new InvantorySlots(200,74,0,num));
+
+
+
 
   for(var i3 = 0 ;i3 < 10; i3++){
     itemsGrownd.push(new OjectItem(round(random(0,25)),round(random(0,25)),1));
 
   }
-  for(var i4 = 0;i4 < 26 ; i4++){
+  for(var i4 = 0;i4 < 29 ; i4++){
     player.inv.push(items[0]);
   }
   itemsGrownd.push(new OjectItem(1,2,4));
@@ -62,6 +62,7 @@ function setup(){
 };
 
 
+
 var player = {
   x        : 0,
   xPre     : 0,
@@ -73,7 +74,7 @@ var player = {
  // weapon   : items[0],
 };
 
-var tileDraw = function(i,j){
+  function tileDraw(i,j){
   var img;
   if(world.tileset[i+j*w] !== 0){
     if(world.tileset[i+j*w] === 1){
@@ -101,7 +102,7 @@ var tileDraw = function(i,j){
 
 };
 
-var mapdraw = function(){
+  function mapdraw(){
   for(var j = 0; j < w; j++){
      // console.log("hay jake you scruwed up #3");
     for(var i = 0; i < h; i++){
@@ -120,20 +121,20 @@ var mapdraw = function(){
 
 var regster = [];
 
-var keyPressed = function() {
+function keyPressed() {
   regster[keyCode] = 1;
 };
 
-var keyReleased = function(){
+function keyReleased(){
   regster[keyCode] = 0;
 };
 
-var mouseOver = function() {
+function mouseOver() {
 
   return true;
 
 };
-var mousePressed = function() {
+function mousePressed() {
   if(mouseButton === LEFT){
     leftMouseDown = true;
   }
@@ -141,7 +142,7 @@ var mousePressed = function() {
     rightMouseDown = true;
   }
 };
-var mouseReleased = function() {
+ function mouseReleased() {
   if(mouseButton === LEFT){
     leftMouseDown = false;
   }
@@ -150,12 +151,12 @@ var mouseReleased = function() {
   }
 };
 
-var mouseClicked = function(){
+function mouseClicked(){
  return true;
 };
 
 
-var moveplayer = function(){
+function moveplayer(){
   if(canMove === true){
         if(regster[UP] && !CT(-player.x,-(player.y+1)) ){
           player.y++;
@@ -187,7 +188,7 @@ var canMove = true;
 
 let imgH = img0;
 
-var openInvantory = function(){
+ function openInvantory(){
 
 
       if(regster[69] && time){
@@ -214,13 +215,13 @@ var openInvantory = function(){
 
     }
 };
-var cleanArrays = function(){
+ function cleanArrays(){
 
   TerrainS = TerrainS.filter((x) => {return x.hp > 0});
   itemsGrownd = itemsGrownd.filter((x) => {return x.picUp === false});
   //itemsGrownd = itemsGrownd.filter((x) => {return picUp === false});
 };
-var move2 = function()  {
+  function move2()  {
   if(dry === "down" && player.y*grideSize !==  world.y-320){
     world.y-= 2;
   }
@@ -240,7 +241,7 @@ var move2 = function()  {
 //                                  Items note to self add items hytory
 
 
-var CT = function(x,y){
+  function CT(x,y){
   for( let t of TerrainS) {
     if(x === t.x && y === t.y && t.type.pass === false){
        t.attacked = true;
@@ -251,6 +252,7 @@ var CT = function(x,y){
 
   return false;
 };
+var Crafts = [{IOne:1,ITwo:1,Itree:1}];
 
 var items = [{number:0,name:"",img:img0,edibal:false,damge:0},
              {number:1,name:"Meat" ,img:img1,edibal:true ,damge:0},
@@ -263,7 +265,7 @@ var items = [{number:0,name:"",img:img0,edibal:false,damge:0},
 var Terrain = [{number:0,name:"pig",img:img3,hp:10,drops:[1],dropsNum:1,pass:false},
 {number:1,name:"block",img:img4,hp:40,drops:[0],dropsNum:6,pass:false},
 {number:2,name:"grass",img:img5,hp:1,drops:[3],dropsNum:1,pass:true},
-{number:3,name:"bush",img:img7,hp:100,drops:[3],dropsNum:4,pass:false}
+{number:3,name:"bush",img:img7,hp:100,drops:[3,3,3,4],dropsNum:4,pass:false}
 ];
 
 //                              entitys
@@ -371,6 +373,9 @@ var EntitysGr = class{
   }
 }
 */
+var CIOne = 0
+var CITwo = 0
+
 var InvantorySlots = class{
 
   constructor(x,y,type,number){
@@ -389,12 +394,36 @@ var InvantorySlots = class{
         textSize(32)
       this.type =  player.inv[this.num];
 
-      if(keyE === true){
+
+
+
+     if(keyE === true){
         if(this.num === 25){
           text("       Eat",this.x - 128,this.y + 32);//
           if(this.type.edibal === true){
             player.fullness += 10;
             player.inv[this.num] = items[0];
+          }
+        }
+        if(this.num > 25&& this.num < 29){
+          if(this.num === 26){
+           CIOne = this.type.number
+          }
+          if(this.num === 27){
+           CITwo = this.type.number
+          }
+         // console.log("test1");
+          if(this.num === 28){
+           // console.log("Test2");
+            for(let c of Crafts){
+              //console.log(c, CIOne, CITwo);
+              if(CIOne === c.IOne && CITwo === c.ITwo){
+                player.inv[this.num] = items[c.Itree];
+                 player.inv[27] = items[0];
+                 player.inv[26] = items[0];
+                //console.log("yes")
+              }
+            }
           }
         }
         if(this.num === 24){
@@ -411,7 +440,7 @@ var InvantorySlots = class{
               if(i.x <= mouseX && i.x+64 >= mouseX && i.y <= mouseY && i.y+64 >= mouseY && !leftMouseDown && i.num != this.num){
                     player.inv[this.num] = i.type;
                     player.inv[i.num]        = this.type;
-                    console.log(i.type);
+                    //console.log(i.type);
                     this.clk = false;
                     clkD = false;
 
@@ -427,11 +456,13 @@ var InvantorySlots = class{
              }
        }
 
-       textSize(117/this.type.name.length)
-      text(this.type.name,this.x,this.y);
 
-      image(this.type.img,this.x,this.y ,64,64);
-
+      if(!this.clk){
+          textSize(117/this.type.name.length)
+          text(this.type.name,this.x,this.y);
+          text(this.num,this.x,this.y+64);
+          image(this.type.img,this.x,this.y ,64,64);
+      }
 
         if(this.x <= mouseX && this.x+64 >= mouseX && this.y <= mouseY && this.y+64 >= mouseY &&rightMouseDown && this.type.number !== 0){
             itemsGrownd.push(new OjectItem(-player.x,-player.y+1,this.type.number));
@@ -442,8 +473,8 @@ var InvantorySlots = class{
        if(this.x <= mouseX && this.x+64 >= mouseX && this.y <= mouseY && this.y+64 >= mouseY &&leftMouseDown && this.type.number !== 0 && clkD === false){
                   this.clk = true;
                   clkD = true;
-                  console.log(this.num);
-                  console.log(this.type.img);
+                 // console.log(this.num);
+                 // console.log(this.type.img);
                   //cursor(this.type.img,0,0);
               }
 
@@ -474,8 +505,8 @@ var OjectTerrain = class{
         this.attacked = false;
      }
      if(this.hp <= 0){
-       for(var i = 0; i < this.type.dropsNum ;i++)
-       itemsGrownd.push(new OjectItem(this.x,this.y,this.type.drops));
+       for(let i = 0; i < this.type.drops.length;i++)//var i = 0; i < this.type.dropsNum ;i++)
+       itemsGrownd.push(new OjectItem(this.x,this.y,this.type.drops[i]));
      }
      fill(200,150,100);
      image(this.type.img,this.x*32+world.x,this.y*32+world.y,32,32);
@@ -497,7 +528,7 @@ var time = false;
 
 var timer2 = 0;
 var time2 = false;
-                    var draw = function(){
+                    function draw(){
 
 
  // player.weapon = player.inv[24];
@@ -516,7 +547,7 @@ var time2 = false;
     timer2++;
     time2 = false;
   }
-        size(800,800);
+
 
 background(200);
 
@@ -565,6 +596,7 @@ background(200);
   text(player.x + " , " + player.y,700,10);
   text((world.x-320) + " , " + (world.y-320),700,25);
   text(world.xtile + " , " + world.ytile,700,50);
+  //console.log(CIOne +" "+CITwo);
    image(imgH,mouseX-20,mouseY-20,64,64);
    imgH = img0;
 };
